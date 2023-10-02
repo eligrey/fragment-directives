@@ -57,14 +57,14 @@ if (scrollToText) {
 This snippet could be invoked by a user agent in order to read and write expected vendor-specific fragment directives.
 
 ```js
-// on the previous page:
+// on one page:
 const directives = new URLSearchParams();
 directives.set('my-custom-directive', '...');
-const url = new URL('/some-page', location);
+const url = new URL('/another-page', location);
 url.setFragmentDirectives?.(directives);
 navigator.navigate(url);
 
-// later on in /some-page:
+// later on in /another-page:
 const directives = await navigator.requestFragmentDirectives?.();
 const customDirective = directives?.get('my-custom-directive');
 if (customDirective) {
