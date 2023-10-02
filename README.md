@@ -36,7 +36,7 @@ This method takes an optional options object with an `includeSensitive` field. I
 
 If the browser user agent chooses to prompt the user for sensitive fragment directive access permission for the current origin, then the permission choice should be persisted for this origin during future visits until cleared.
 
-The `setFragmentDirectives` mixin method sets the fragment directives for a location interface. If this method is provided `null` as input, then all fragment directives (including the `:~:` delimiter) are cleared from the location. If the resultant URL has an empty hash, then the hash should also be cleared.
+The `setFragmentDirectives` mixin method sets the fragment directives for a location interface, merging with any existing fragment directives. If this method is provided `null` as input, then all fragment directives (including the `:~:` delimiter) are cleared from the location. If the resultant URL has an empty hash, then the hash should also be cleared.
 
 ## Example use cases
 
