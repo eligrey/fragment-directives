@@ -12,11 +12,11 @@ of the [Privacy Community Group](https://privacycg.github.io/).
 
 ## Introduction
 
-Recently, browsers have started to adopt the [URL Fragment Text Directives](https://wicg.github.io/scroll-to-text-fragment/) aka scroll-to-text specification. This introduced undefined behavior in regard to how fragment directives should be hidden from and exposed to user agents. This standard aims to codify a way to query fragment directives from all supported location interfaces while accounting for the privacy concerns introduced by accessing potentially privacy-sensitive directives.
+Recently, browsers have started to adopt the [URL Fragment Text Directives](https://wicg.github.io/scroll-to-text-fragment/) aka scroll-to-text specification. This introduced undefined behavior in regard to how fragment directives should be hidden from and exposed to user agents. This specification aims to codify a way to query fragment directives from all supported location interfaces while accounting for the privacy concerns introduced by accessing potentially privacy-sensitive directives.
 
 ### Motivating Use Cases
 
-[Fragment directives](https://wicg.github.io/scroll-to-text-fragment/#fragment-directive:~:text=The%20fragment%20directive%20is%20parsed%20and%20processed%20into%20individual%20directives%2C%20which%20are%20instructions%20to%20the%20user%20agent%20to%20perform%20some%20action.%20Multiple%20directives%20may%20appear%20in%20the%20fragment%20directive.) are instructions for user agents to perform some action. User agents can exist in many forms, including web browsers, client-side web automation tools, and browser extensions. The effect of the scroll-to-text standard is that these fragment directives were hidden from location interfaces for compatibility reasons.
+[Fragment directives](https://wicg.github.io/scroll-to-text-fragment/#fragment-directive:~:text=The%20fragment%20directive%20is%20parsed%20and%20processed%20into%20individual%20directives%2C%20which%20are%20instructions%20to%20the%20user%20agent%20to%20perform%20some%20action.%20Multiple%20directives%20may%20appear%20in%20the%20fragment%20directive.) are instructions for user agents to perform some action. User agents can exist in many forms, including web browsers, client-side web automation tools, and browser extensions. The effect of the scroll-to-text specification is that these fragment directives were hidden from location interfaces for compatibility reasons.
 
 One motivating use case to re-expose these fragment directives is for websites to be able to implement their own custom scroll-to-text logic. Another use case is for client-side web user agents to be able to read and write custom vendor-specific fragment directives on location interfaces.
 
