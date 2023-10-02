@@ -29,12 +29,12 @@ The Fragment Directives API should filter out privacy-sensitive fragment directi
 ## API
 
 The Fragment Directives API exposes a new `requestFragmentDirectives` method on the `Navigator` interface and a new `setFragmentDirectives` method on the `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` interfaces.
-
+ti
 The `navigator.requestFragmentDirectives` method queries for and enumerates fragment directives from input `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` instances. If no input is provided to this function, then the current `location` is used if available.
 
 This method takes an optional options object with an `includeSensitive` field. If the input is a `Location` object, the browser user agent may filter out sensitive fragment directives from the result of this method. Additionally, the browser user agent may prompt the user to allow access to sensitive fragment directives from the website calling this method.
 
-If the browser user agent chooses to prompt the user for sensitive fragment directive access permission for the current origin, then the permission choice should be persisted for this origin during future visits until cleared.
+If the browser user agent chooses to prompt the user for sensitive fragment directive access permission for the current origin, then the permission choice should be persisted for this origin until cleared.
 
 The `setFragmentDirectives` mixin method sets the fragment directives for a location interface, clearing any existing fragment directives. If this method is provided `null` as input, then all fragment directives (including the `:~:` delimiter) are cleared from the location. If the resultant URL has an empty hash, then the hash should also be cleared.
 
