@@ -44,7 +44,7 @@ This snippet could be invoked by a website to handle custom scroll-to-text logic
 
 ```js
 const directives = await navigator.requestFragmentDirectives?.(location, { includeSensitive: true });
-const scrollToText = directives.getAll('text');
+const scrollToText = directives?.getAll('text');
 if (scrollToText) {
   // implement custom scroll-to-text
 }
