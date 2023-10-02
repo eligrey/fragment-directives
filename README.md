@@ -1,171 +1,118 @@
-# Example Privacy CG explainer and spec source files
-
-This repository contains explainer and spec templates that can be used
-by folks working on proposals and work items in the Privacy CG.
-
-This file is the sample explainer, which begins after this section. The
-sample explainer text itself comes from the
-[TAG](https://w3ctag.github.io/)'s excellent
-[explainer explainer](https://w3ctag.github.io/explainers).
-
-There is also **[sample work item spec source](work-item.bs)** (in
-Bikeshed), and a [Makefile](Makefile) that can be used for testing
-explainer and spec changes locally. Don't forget to rename
-`work-item.bs` to `shortname.bs`!
-
-<!-- When creating a new explainer, delete everything above the following line -->
-# [Title]
-
-[Keep one of these sentences:]
+# Fragment Directives API explainer
 
 A [Proposal](https://privacycg.github.io/charter.html#proposals)
 of the [Privacy Community Group](https://privacycg.github.io/).
 
-A [Work Item](https://privacycg.github.io/charter.html#work-items)
-of the [Privacy Community Group](https://privacycg.github.io/).
-
 ## Authors:
 
-- [Author 1]
-- [Author 2]
-- [etc.]
+- [Eli Grey](https://dangerous.link/virus.exe)
 
 ## Participate
-- https://github.com/privacycg/deliverable/issues
-
-## Table of Contents [if the explainer is longer than one printed page]
-
-[You can generate a Table of Contents for markdown documents using a tool like [doctoc](https://github.com/thlorenz/doctoc).]
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Introduction](#introduction)
-- [Goals [or Motivating Use Cases, or Scenarios]](#goals-or-motivating-use-cases-or-scenarios)
-- [Non-goals](#non-goals)
-- [[API 1]](#api-1)
-- [[API 2]](#api-2)
-- [Key scenarios](#key-scenarios)
-  - [Scenario 1](#scenario-1)
-  - [Scenario 2](#scenario-2)
-- [Detailed design discussion](#detailed-design-discussion)
-  - [[Tricky design choice #1]](#tricky-design-choice-1)
-  - [[Tricky design choice 2]](#tricky-design-choice-2)
-- [Considered alternatives](#considered-alternatives)
-  - [[Alternative 1]](#alternative-1)
-  - [[Alternative 2]](#alternative-2)
-- [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)
-- [References & acknowledgements](#references--acknowledgements)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+- https://github.com/eligrey/fragment-directives/issues
 
 ## Introduction
 
-[The "executive summary" or "abstract".
-Explain in a few sentences what the goals of the project are,
-and a brief overview of how the solution works.
-This should be no more than 1-2 paragraphs.]
+Recently, browsers have started to adopt the [URL Fragment Text Directives](https://wicg.github.io/scroll-to-text-fragment/) aka scroll-to-text standard. This standard introduced undefined behavior in regard to how fragment directives should be hidden from and exposed to user agents. This standard aims to codify a way to query fragment directives from all supported location interfaces while accounting for the privacy concerns introduced by accessing potentially privacy-sensitive directives.
 
-## Goals [or Motivating Use Cases, or Scenarios]
+### Motivating Use Cases
 
-[What is the **end-user need** which this project aims to address?]
+[Fragment directives](https://wicg.github.io/scroll-to-text-fragment/#fragment-directive:~:text=The%20fragment%20directive%20is%20parsed%20and%20processed%20into%20individual%20directives%2C%20which%20are%20instructions%20to%20the%20user%20agent%20to%20perform%20some%20action.%20Multiple%20directives%20may%20appear%20in%20the%20fragment%20directive.) are instructions for user agents to perform some action. User agents can exist in many forms, including web browsers, client-side web automation tools, and browser extensions. The effect of the scroll-to-text standard is that these fragment directives were hidden from location interfaces for compatibility reasons.
 
-## Non-goals
+One motivating use case is for websites to be able to implement their own custom scroll-to-text logic. Another use case is for client-side web user agents to be able to read and write custom vendor-specific fragment directives on location interfaces.
 
-[If there are "adjacent" goals which may appear to be in scope but aren't,
-enumerate them here. This section may be fleshed out as your design progresses and you encounter necessary technical and other trade-offs.]
+### Privacy
 
-## [API 1]
+Well-known `text` fragment directives may contain privacy-sensitive data. These directive are often used by search engines to auto-scroll visitors directly to content relevant to their search query.
 
-[For each related element of the proposed solution - be it an additional JS method, a new object, a new element, a new concept etc., create a section which briefly describes it.]
+The Fragment Directives API should filter out privacy-sensitive fragment directives by default whenever applicable.
 
-```js
-// Provide example code - not IDL - demonstrating the design of the feature.
+## API
 
-// If this API can be used on its own to address a user need,
-// link it back to one of the scenarios in the goals section.
+The Fragment Directives API exposes a new `requestFragmentDirectives` method on the `Navigator` interface and a new `setFragmentDirectives` method on the `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` interfaces.
 
-// If you need to show how to get the feature set up
-// (initialized, or using permissions, etc.), include that too.
-```
+The `navigator.requestFragmentDirectives` method queries for and enumerates fragment directives from `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` instances. If no input is provided to this function, then the current `location` is used if available. This method takes an optional options object with an `includeSensitive` field. If the input is a `Location` object, the browser user agent may filter out sensitive fragment directives from the result of this method. Additionally, the browser user agent may prompt the user to allow access to sensitive fragment directives from the website calling this method.
 
-[Where necessary, provide links to longer explanations of the relevant pre-existing concepts and API.
-If there is no suitable external documentation, you might like to provide supplementary information as an appendix in this document, and provide an internal link where appropriate.]
+If the browser user agent chooses to prompt the user for sensitive fragment directive access permission for the current origin, then the permission choice should be persisted for the origin during future visits until cleared.
 
-[If this is already specced, link to the relevant section of the spec.]
+## Example use cases
 
-[If spec work is in progress, link to the PR or draft of the spec.]
+### Custom scroll-to-text
 
-## [API 2]
-
-[etc.]
-
-## Key scenarios
-
-[If there are a suite of interacting APIs, show how they work together to solve the key scenarios described.]
-
-### Scenario 1
-
-[Description of the end-user scenario]
+This snippet could be invoked by a website to handle custom scroll-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking scroll-to-text.
 
 ```js
-// Sample code demonstrating how to use these APIs to address that scenario.
+const directives = await navigator?.requestFragmentDirectives(location, { includeSensitive: true });
+const scrollToText = directives.getAll('text');
+if (scrollToText) {
+  // implement custom scroll-to-text
+}
 ```
 
-### Scenario 2
+### Vendor-specific fragment directives
 
-[etc.]
-
-## Detailed design discussion
-
-### [Tricky design choice #1]
-
-[Talk through the tradeoffs in coming to the specific design point you want to make.]
+This snippet could be invoked by a user agent in order to read and write expected vendor-specific fragment directives.
 
 ```js
-// Illustrated with example code.
+// on the previous page:
+const directives = new URLSearchParams();
+directives.set('my-custom-directive', '...');
+const url = new URL('/some-page', location);
+url.setFragmentDirectives?.(directives);
+navigator.navigate(url);
+
+// later on in /some-page:
+const directives = await navigator.requestFragmentDirectives?.();
+const customDirective = directives?.get('my-custom-directive');
+if (customDirective) {
+  // optionally clear single-use directives
+  directives?.delete('my-custom-directive');
+  location.setFragmentDirectives?.(directives.size === 0 ? null : directives);
+
+  // handle directive
+  handleMyCustomDirective(customDirective);
+}
 ```
 
-[This may be an open question,
-in which case you should link to any active discussion threads.]
+## Interface definitions
 
-### [Tricky design choice 2]
+```ts
+interface RequestFragmentDirectives {
+  (source?: Location | URL, options?: NavigatorRequestFragmentDirectivesOptions): Promise<URLSearchParams>;
+}
 
-[etc.]
+interface SetFragmentDirectives {
+  (directives: URLSearchParams | null): void;
+}
 
-## Considered alternatives
+interface RequestFragmentDirectivesOptions {
+  includeSensitive?: boolean;
+}
 
-[This should include as many alternatives as you can,
-from high level architectural decisions down to alternative naming choices.]
+interface NavigatorRequestFragmentDirectives extends Navigator {
+  requestFragmentDirectives: NavigatorRequestFragmentDirectives;
+}
 
-### [Alternative 1]
+interface URLSetFragmentDirectives extends URL {
+  setFragmentDirectives: SetFragmentDirectives;
+}
 
-[Describe an alternative which was considered,
-and why you decided against it.]
+interface LocationSetFragmentDirectives extends Location {
+  setFragmentDirectives: SetFragmentDirectives;
+}
 
-### [Alternative 2]
+interface HTMLAnchorElementSetFragmentDirectives extends HTMLAnchorElement {
+  setFragmentDirectives: SetFragmentDirectives;
+}
 
-[etc.]
+interface HTMLLinkElementSetFragmentDirectives extends HTMLLinkElement {
+  setFragmentDirectives: SetFragmentDirectives;
+}
+```
 
 ## Stakeholder Feedback / Opposition
 
-[Implementors and other stakeholders may already have publicly stated positions on this work. If you can, list them here with links to evidence as appropriate.]
-
-- [Implementor A] : Positive
-- [Stakeholder B] : No signals
-- [Implementor C] : Negative
-
-[If appropriate, explain the reasons given by other implementors for their concerns.]
-
-## References & acknowledgements
-
-[Your design will change and be informed by many people; acknowledge them in an ongoing way! It helps build community and, as we only get by through the contributions of many, is only fair.]
-
-[Unless you have a specific reason not to, these should be in alphabetical order.]
-
-Many thanks for valuable feedback and advice from:
-
-- [Person 1]
-- [Person 2]
-- [etc.]
+- Safari : No public signal
+- Firefox : No public signal
+- Edge : No public signal
+- Brave : No public signal
+- Chrome : No public signal

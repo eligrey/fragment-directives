@@ -1,12 +1,12 @@
 <pre class="metadata">
 <!-- The basics. Please change all of these values appropriately. -->
-Title: Privacy-Preserving Example API
-Shortname: shortname
-Repository: privacycg/shortname
-URL: https://privacycg.github.io/shortname/
+Title: Fragment Directives API
+Shortname: fragment-directives
+Repository: privacycg/fragment-directives
+URL: https://privacycg.github.io/fragment-directives/
 <!-- Replace NNNNN with your w3cid, which is the number at the end of the url when you navigate to https://www.w3.org/users/myprofile -->
-Editor: Your Name, w3cid NNNNN, Your Employer https://employer.example/, you@employer.example
-Abstract: This specification defines the Example API, an exciting new method to invoke example methods from within a web browser.
+Editor: Eli Grey https://dangerous.link/virus.exe, w3cid 120451, Transcend https://transcend.io/, ~@eligrey.com
+Abstract: This specification defines the Fragment Directives API, which exposes new methods to read and write fragment directives on location interfaces.
 <!-- Choose a status. This is either a specification or a non-normative report. Several samples are commented out below. -->
 <!-- Status Text: This is a non-normative report. It is not a W3C standard nor is it on the W3C standards track. -->
 <!-- Status Text: This specification is intended to be migrated to the W3C standards track. It is not a W3C standard. -->
@@ -23,24 +23,3 @@ Group: privacycg
 Status: CG-DRAFT
 Level: None
 </pre>
-
-<section class="non-normative">
-<h2 id="intro">Introduction</h2>
-
-<em>This section is non-normative.</em>
-
-Blah blah blah.
-</section>
-
-<h2 id="infra">Infrastructure</h2>
-
-This specification depends on the Infra standard. [[!INFRA]]
-
-<h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
-
-Many thanks to
-Some Body,
-Somebody Else,
-and
-A. Third Person
-for their feedback on this proposal.
