@@ -12,7 +12,7 @@ of the [Privacy Community Group](https://privacycg.github.io/).
 
 ## Introduction
 
-Recently, browsers have started to adopt the [URL Fragment Text Directives](https://wicg.github.io/scroll-to-text-fragment/) aka scroll-to-text standard. This standard introduced undefined behavior in regard to how fragment directives should be hidden from and exposed to user agents. This standard aims to codify a way to query fragment directives from all supported location interfaces while accounting for the privacy concerns introduced by accessing potentially privacy-sensitive directives.
+Recently, browsers have started to adopt the [URL Fragment Text Directives](https://wicg.github.io/scroll-to-text-fragment/) aka scroll-to-text standard. That standard introduced undefined behavior in regard to how fragment directives should be hidden from and exposed to user agents. This standard aims to codify a way to query fragment directives from all supported location interfaces while accounting for the privacy concerns introduced by accessing potentially privacy-sensitive directives.
 
 ### Motivating Use Cases
 
