@@ -43,7 +43,7 @@ If the browser user agent chooses to prompt the user for sensitive fragment dire
 This snippet could be invoked by a website to handle custom scroll-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking scroll-to-text.
 
 ```js
-const directives = await navigator?.requestFragmentDirectives(location, { includeSensitive: true });
+const directives = await navigator.requestFragmentDirectives?.(location, { includeSensitive: true });
 const scrollToText = directives.getAll('text');
 if (scrollToText) {
   // implement custom scroll-to-text
