@@ -78,8 +78,10 @@ if (customDirective) {
 ## Interface definitions
 
 ```ts
+type LocationLike = Location | URL | HTMLAnchorElement | HTMLLinkElement;
+
 interface RequestFragmentDirectives {
-  (source?: Location | URL, options?: NavigatorRequestFragmentDirectivesOptions): Promise<URLSearchParams>;
+  (source?: LocationLike, options?: RequestFragmentDirectivesOptions): Promise<URLSearchParams>;
 }
 
 interface SetFragmentDirectives {
