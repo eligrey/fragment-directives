@@ -22,7 +22,7 @@ One motivating use case to re-expose these fragment directives is for websites t
 
 ### Privacy
 
-Well-known `text` fragment directives may contain privacy-sensitive data. These directive are often used by search engines to auto-scroll visitors directly to content relevant to their search query.
+Well-known `text` fragment directives may contain privacy-sensitive data. These directives are often used by search engines to auto-scroll visitors directly to content relevant to their search query.
 
 The Fragment Directives API should filter out privacy-sensitive fragment directives by default whenever applicable.
 
