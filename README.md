@@ -56,17 +56,17 @@ if (scrollToText) {
 
 ### Custom fragment directives
 
-This snippet could be invoked by a user agent in order to read and write custom vendor-specific fragment directives.
+This snippet could be invoked by a JavaScript library in order to read and write custom vendor-specific fragment directives. This allows vendors to provide configuration data over URLs without interfering with the host site's routing logic.
 
 ```js
-// on initial page:
+// on initial site:
 const directives = new URLSearchParams();
 directives.set('my-custom-directive', '...');
-const url = new URL('/another-page', location);
+const url = new URL('//another-site.example', location);
 url.setFragmentDirectives?.(directives);
 navigation.navigate(url);
 
-// on /another-page:
+// on another-site.example:
 const directives = await navigator.requestFragmentDirectives?.();
 const customDirective = directives?.get('my-custom-directive');
 if (customDirective) {
