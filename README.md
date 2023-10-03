@@ -40,7 +40,7 @@ The `setFragmentDirectives` mixin method sets the fragment directives for a loca
 
 ## Example use cases
 
-### Custom scroll-to-text
+### Custom scroll-to-text behavior
 
 This snippet could be invoked by a website to handle custom scroll-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking scroll-to-text.
 
@@ -52,9 +52,9 @@ if (scrollToText) {
 }
 ```
 
-### Vendor-specific fragment directives
+### Custom fragment directives
 
-This snippet could be invoked by a user agent in order to read and write expected vendor-specific fragment directives.
+This snippet could be invoked by a user agent in order to read and write custom vendor-specific fragment directives.
 
 ```js
 // on one page:
@@ -70,7 +70,7 @@ const customDirective = directives?.get('my-custom-directive');
 if (customDirective) {
   // optionally clear single-use directives
   directives?.delete('my-custom-directive');
-  location.setFragmentDirectives?.(directives.size === 0 ? null : directives);
+  location.setFragmentDirectives?.(directives);
 
   // handle directive
   handleMyCustomDirective(customDirective);
