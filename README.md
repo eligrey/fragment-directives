@@ -77,7 +77,6 @@ if (customDirective) {
   // handle directive
   handleMyCustomDirective(customDirective);
 }
-
 ```
 
 ## Interface definitions
