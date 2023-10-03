@@ -58,22 +58,26 @@ This snippet could be invoked by a user agent in order to read and write custom 
 
 ```js
 // on one page:
-const directives = new URLSearchParams();
-directives.set('my-custom-directive', '...');
-const url = new URL('/another-page', location);
-url.setFragmentDirectives?.(directives);
-navigator.navigate(url);
+{
+  const directives = new URLSearchParams();
+  directives.set('my-custom-directive', '...');
+  const url = new URL('/another-page', location);
+  url.setFragmentDirectives?.(directives);
+  navigation.navigate(url);
+}
 
 // later on in /another-page:
-const directives = await navigator.requestFragmentDirectives?.();
-const customDirective = directives?.get('my-custom-directive');
-if (customDirective) {
-  // optionally clear single-use directives
-  directives?.delete('my-custom-directive');
-  location.setFragmentDirectives?.(directives);
+{
+  const directives = await navigator.requestFragmentDirectives?.();
+  const customDirective = directives?.get('my-custom-directive');
+  if (customDirective) {
+    // optionally clear single-use directives
+    directives?.delete('my-custom-directive');
+    location.setFragmentDirectives?.(directives);
 
-  // handle directive
-  handleMyCustomDirective(customDirective);
+    // handle directive
+    handleMyCustomDirective(customDirective);
+  }
 }
 ```
 
