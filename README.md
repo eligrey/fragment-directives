@@ -1,8 +1,5 @@
 # Fragment Directives API explainer
 
-A [Proposal](https://privacycg.github.io/charter.html#proposals)
-of the [Privacy Community Group](https://privacycg.github.io/).
-
 ## Authors:
 
 - [Eli Grey](https://dangerous.link/virus.exe)
