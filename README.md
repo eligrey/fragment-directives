@@ -27,9 +27,9 @@ The Fragment Directives API should filter out privacy-sensitive fragment directi
 
 ## API
 
-The Fragment Directives API exposes a new `requestFragmentDirectives` method on the `Navigator` interface and a new `setFragmentDirectives` method on the `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` interfaces.
+The Fragment Directives API exposes a new `requestFragmentDirectives` method on the `Navigation` interface and a new `setFragmentDirectives` method on the `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` interfaces.
 
-The `navigator.requestFragmentDirectives` method queries for and enumerates fragment directives from input `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` instances. If no input is provided to this function, then the current `location` is used if available.
+The `navigation.requestFragmentDirectives` method queries for and enumerates fragment directives from input `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` instances. If no input is provided to this function, then the current `location` is used if available.
 
 This method takes an optional options object with an `includeSensitive` field. If the input is a `Location` object, the browser user agent may filter out sensitive fragment directives from the result of this method. Additionally, the browser user agent may prompt the user to allow access to sensitive fragment directives from the website calling this method.
 
@@ -44,10 +44,12 @@ The `setFragmentDirectives` mixin method sets the fragment directives for a loca
 This snippet could be invoked by a website to handle custom scroll-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking scroll-to-text.
 
 ```js
-const directives = await navigator.requestFragmentDirectives?.(location, { includeSensitive: true });
-const scrollToText = directives?.getAll('text');
-if (scrollToText) {
-  // implement custom scroll-to-text
+if (navigation.requestFragmentDirectives) {
+  const directives = await navigation.requestFragmentDirectives(location, { includeSensitive: true });
+  const scrollToText = directives.getAll('text');
+  if (scrollToText) {
+    // implement custom scroll-to-text
+  }
 }
 ```
 
@@ -57,22 +59,26 @@ This snippet could be invoked by a JavaScript library in order to read and write
 
 ```js
 // on initial site:
-const directives = new URLSearchParams();
-directives.set('my-custom-directive', '...');
 const url = new URL('//another-site.example', location);
-url.setFragmentDirectives?.(directives);
+if (url.setFragmentDirectives) {
+  const directives = new URLSearchParams();
+  directives.set('my-custom-directive', '...');
+  url.setFragmentDirectives(directives);
+}
 navigation.navigate(url);
 
 // on another-site.example:
-const directives = await navigator.requestFragmentDirectives?.();
-const customDirective = directives?.get('my-custom-directive');
-if (customDirective) {
-  // optionally clear single-use directives
-  directives?.delete('my-custom-directive');
-  location.setFragmentDirectives?.(directives);
+if (navigation.requestFragmentDirectives) {
+  const directives = await navigation.requestFragmentDirectives();
+  const customDirective = directives.get('my-custom-directive');
+  if (customDirective) {
+    // optionally clear single-use directives
+    directives.delete('my-custom-directive');
+    location.setFragmentDirectives(directives);
 
-  // handle directive
-  handleMyCustomDirective(customDirective);
+    // handle directive
+    handleMyCustomDirective(customDirective);
+  }
 }
 ```
 
@@ -93,8 +99,8 @@ interface RequestFragmentDirectivesOptions {
   includeSensitive?: boolean;
 }
 
-interface NavigatorRequestFragmentDirectives extends Navigator {
-  requestFragmentDirectives: NavigatorRequestFragmentDirectives;
+interface NavigationRequestFragmentDirectives extends Navigation {
+  requestFragmentDirectives: RequestFragmentDirectives;
 }
 
 interface URLSetFragmentDirectives extends URL {
