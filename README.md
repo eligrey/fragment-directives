@@ -61,9 +61,7 @@ This snippet could be invoked by a JavaScript library in order to read and write
 // on initial site:
 const url = new URL('//another-site.example', location);
 if (url.setFragmentDirectives) {
-  const directives = new URLSearchParams();
-  directives.set('my-custom-directive', '...');
-  url.setFragmentDirectives(directives);
+  url.setFragmentDirectives(new URLSearchParams('my-custom-directive=...'));
 }
 navigation.navigate(url);
 
