@@ -17,7 +17,7 @@ This specification aims to codify a way to read and write fragment directives fr
 
 ### Motivating Use Cases
 
-One motivating use case to re-expose these fragment directives is for websites to be able to implement their own custom scroll-to-text logic. Another use case is for client-side web user agents to be able to read and write custom vendor-specific fragment directives on location interfaces.
+One motivating use case to re-expose these fragment directives is for websites to be able to implement their own custom navigate-to-text logic. Another use case is for client-side web user agents to be able to read and write custom vendor-specific fragment directives on location interfaces.
 
 ### Privacy
 
@@ -31,7 +31,7 @@ The Fragment Directives API exposes a new `requestFragmentDirectives` method on 
 
 The `navigation.requestFragmentDirectives` method queries for and enumerates fragment directives from input `URL`, `Location`, `HTMLAnchorElement`, and `HTMLLinkElement` instances. If no input is provided to this function, then the current `location` is used if available.
 
-This method takes an optional options object with an optional `includeSensitive` field. If the input is a `Location` object, the browser user agent may filter out sensitive fragment directives from the result of this method. Additionally, the browser user agent may require a secure context and prompt the user to allow access to sensitive fragment directives from the website calling this method. As there is only one known privacy-sensitive fragment directive, browser user agents may choose to prompt with the user with a message equivalent to "\[website origin\] wants to access in-page scroll-to-text search terms" in the user's configured language.
+This method takes an optional options object with an optional `includeSensitive` field. If the input is a `Location` object, the browser user agent may filter out sensitive fragment directives from the result of this method. Additionally, the browser user agent may require a secure context and prompt the user to allow access to sensitive fragment directives from the website calling this method. As there is only one known privacy-sensitive fragment directive, browser user agents may choose to prompt with the user with a message equivalent to "\[website origin\] wants to access in-page search terms" in the user's configured language.
 
 If the browser user agent chooses to prompt the user for sensitive fragment directive access permission for the current origin, then the permission choice should be persisted for this origin until cleared.
 
@@ -41,14 +41,14 @@ The `setFragmentDirectives` mixin method sets the fragment directives for a loca
 
 ### Custom scroll-to-text behavior
 
-This snippet could be invoked by a website to handle custom scroll-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking scroll-to-text.
+This snippet could be invoked by a website to handle custom scroll-to-text or navigate-to-text logic. This logic could automatically open a specific view in a webapp that would normally be obscured or inaccessible, breaking normal scroll-to-text.
 
 ```js
 if (navigation.requestFragmentDirectives) {
   const directives = await navigation.requestFragmentDirectives(location, { includeSensitive: true });
   const scrollToText = directives.getAll('text');
   if (scrollToText) {
-    // implement custom scroll-to-text
+    // implement custom scroll-to-text / navigate-to-text
   }
 }
 ```
