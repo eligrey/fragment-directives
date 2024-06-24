@@ -82,7 +82,7 @@ if (navigation.requestFragmentDirectives) {
 
 ## Polyfills
 
-This can be polyfilled in the currently-shipping versions of Chrome (126), Edge (126), Firefox (127), and Safari (17.5). Safari currently requires an additional page refresh to access these directives.
+This can be polyfilled in the currently-shipping versions of Chrome (126), Edge (126), Firefox (127), and Safari (17.5).
 
 ## Interface definitions
 
